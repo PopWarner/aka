@@ -42,12 +42,17 @@ Run a local build with:
 ```shell
 npm run build:local
 ```
+
 ## Why this approach?
 
-We didn't want to worry about paying for databases, permissons, etc. 
+We didn't want to worry about paying for databases, permissions, etc.
 
 If you have admin access to this repo, you can approve the PRs and the links will be published.
 
-If you nav contributor access to this repo, you can submit a PR. As long as your link relates to PnP content or initiatives, we'll most likely approve it.
+If you have contributor access to this repo, you can submit a PR. As long as your link relates to PnP content or initiatives, we'll most likely approve it.
 
-Please, for the love of all that is holy, keep your URLs short. 
+Please, for the love of all that is holy, keep your URLs short.
+
+## What, no home page?
+
+Nope. The root of the site redirects to `https://pnp.github.io/` which is our main documentation hub. We don't want to create confusion about the purpose of this site by having a home page with content. The only content on this site should be the redirects.
