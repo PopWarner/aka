@@ -42,7 +42,7 @@ jobs:
       - name: Build
         run: |
           node scripts/prepare-redirects.mjs
-          hugo --gc --minify --baseURL "https://pnp.github.io/aka/"
+          hugo --gc --minify
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'

@@ -9,13 +9,13 @@ Yes, we know there are other URL shortener services. We want to have our own for
 - We want to have a simple, open-source solution that we can easily maintain and extend as needed.
 - We have no control over the short link creation process on aka.ms, and we want to be able to create short links for our content without having to go through a third-party service.
 
-Yes, we know that our current URL is *not* short enough. We are working on a custom short domain for this site, but in the meantime, we wanted to get something up and running quickly.
+The published short-link domain is `https://pnp.ms/`.
 
 ## Add a redirect
 
 Create a Markdown file in `content` named after the short link slug. Add the destination URL in the `url` front matter field.
 
-For example, `content/matrix.md` creates `https://pnp.github.io/aka/matrix/`:
+For example, `content/matrix.md` creates `https://pnp.ms/matrix/`:
 
 ```markdown
 ---
@@ -35,7 +35,7 @@ Every redirect page automatically renders this telemetry image before redirectin
 
 ## Deployment
 
-GitHub Actions builds pull requests for validation. Pushes to `main`, including merged pull requests, build and deploy the Hugo site to GitHub Pages at `https://pnp.github.io/aka/`.
+GitHub Actions builds pull requests for validation. Pushes to `main`, including merged pull requests, build and deploy the Hugo site to GitHub Pages for `https://pnp.ms/`.
 
 Run a local build with:
 
@@ -55,4 +55,4 @@ Please, for the love of all that is holy, keep your URLs short.
 
 ## What, no home page?
 
-Nope. The root of the site redirects to `https://pnp.github.io/` which is our main documentation hub. We don't want to create confusion about the purpose of this site by having a home page with content. The only content on this site should be the redirects.
+Nope. `https://pnp.ms/` redirects to `https://pnp.github.io/` which is our main documentation hub. We don't want to create confusion about the purpose of this site by having a home page with content. The only content on this site should be the redirects.
