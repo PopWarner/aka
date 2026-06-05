@@ -23,6 +23,8 @@ url: "https://learn.microsoft.com/sharepoint/dev/spfx/compatibility"
 ---
 ```
 
+Nested files create nested short paths. For example, `content/t/hugo.md` creates `https://pnp.ms/t/hugo/`.
+
 If the URL does not include a scheme, the site redirects to `https://`.
 
 The `url` field is intentionally used only as the redirect destination. A prebuild script converts files from `content` into Hugo-safe generated pages so Hugo does not treat `url` as the page permalink.

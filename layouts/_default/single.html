@@ -6,7 +6,10 @@
 {{- if not $parsedTarget.Scheme -}}
   {{- $target = printf "https://%s" $target -}}
 {{- end -}}
-{{- $slug := .Params.source_slug | default .File.TranslationBaseName | urlize -}}
+{{- $slug := .File.TranslationBaseName | urlize -}}
+{{- with .Params.source_slug -}}
+  {{- $slug = . -}}
+{{- end -}}
 {{- $telemetryUrl := printf "https://pnptelemetry.azurewebsites.net/pnp.github.io/aka/%s" $slug -}}
 <!doctype html>
 <html lang="{{ site.Language.LanguageCode }}">

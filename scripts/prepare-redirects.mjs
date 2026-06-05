@@ -38,7 +38,7 @@ function getFrontMatter(markdown, filePath) {
     throw new Error(`${filePath} must start with YAML front matter.`);
   }
 
-  const endMatch = markdown.match(/\r?\n---\r?\n/);
+  const endMatch = markdown.match(/\r?\n---(?:\r?\n|$)/);
 
   if (!endMatch || endMatch.index === undefined) {
     throw new Error(`${filePath} must include closing YAML front matter.`);
@@ -67,17 +67,26 @@ const sourceFiles = await findMarkdownFiles(sourceDir);
 const slugs = new Set();
 
 for (const sourceFile of sourceFiles) {
-  const slug = path.basename(sourceFile, path.extname(sourceFile));
+  const relativePath = path.relative(sourceDir, sourceFile);
+  const relativeParts = relativePath.split(path.sep);
+  const sourceFileName = relativeParts[relativeParts.length - 1];
 
-  if (slug.startsWith("_")) {
+  if (sourceFileName.startsWith("_")) {
     continue;
   }
 
-  if (slugs.has(slug)) {
-    throw new Error(`Duplicate redirect slug '${slug}'. Markdown file names must be unique.`);
+  const slugParts = [
+    ...relativeParts.slice(0, -1),
+    path.basename(sourceFileName, path.extname(sourceFileName))
+  ];
+  const slug = slugParts.join("/");
+  const slugKey = slug.toLowerCase();
+
+  if (slugs.has(slugKey)) {
+    throw new Error(`Duplicate redirect slug '${slug}'. Markdown file paths must be unique.`);
   }
 
-  slugs.add(slug);
+  slugs.add(slugKey);
 
   const markdown = await readFile(sourceFile, "utf8");
   const frontMatter = getFrontMatter(markdown, sourceFile);
@@ -91,7 +100,9 @@ for (const sourceFile of sourceFiles) {
     ""
   ].join("\n");
 
-  await writeFile(path.join(outputDir, `${slug}.md`), generatedMarkdown, "utf8");
+  const outputFile = path.join(outputDir, ...slugParts.slice(0, -1), `${slugParts[slugParts.length - 1]}.md`);
+  await mkdir(path.dirname(outputFile), { recursive: true });
+  await writeFile(outputFile, generatedMarkdown, "utf8");
 }
 
 console.log(`Prepared ${slugs.size} redirect page${slugs.size === 1 ? "" : "s"}.`);
