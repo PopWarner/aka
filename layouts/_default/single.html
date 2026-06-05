@@ -16,17 +16,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="1;url={{ $target }}">
+  <meta http-equiv="refresh" content="5;url={{ $target }}">
   <link rel="canonical" href="{{ $target }}">
   <title>Redirecting to {{ $target }}</title>
 </head>
 <body style='font-family: "Segoe UI", "Segoe Sans", sans-serif;'>
   <img id="telemetry" src="{{ $telemetryUrl }}" alt="">
-  <p><a href="{{ $target }}">Continue to link</a></p>
+  <p><a id="redirect-link" href="{{ $target }}">Continue to link</a></p>
   <script>
     const target = {{ $target | jsonify | safeJS }};
     const image = document.getElementById("telemetry");
+    const link = document.getElementById("redirect-link");
     let redirected = false;
+
+    function getRedirectTarget() {
+      const redirectTarget = new URL(target, window.location.href);
+      const currentSearchParams = new URLSearchParams(window.location.search);
+
+      currentSearchParams.forEach((value, key) => {
+        redirectTarget.searchParams.append(key, value);
+      });
+
+      return redirectTarget.toString();
+    }
+
+    const redirectTarget = getRedirectTarget();
+
+    if (link) {
+      link.href = redirectTarget;
+    }
 
     function redirect() {
       if (redirected) {
@@ -34,7 +52,7 @@
       }
 
       redirected = true;
-      window.location.replace(target);
+      window.location.replace(redirectTarget);
     }
 
     if (image && image.complete) {

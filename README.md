@@ -27,6 +27,8 @@ Nested files create nested short paths. For example, `content/t/hugo.md` creates
 
 If the URL does not include a scheme, the site redirects to `https://`.
 
+Query parameters on the short link are appended to the destination. For example, `https://pnp.ms/webparts/?q=hugo` redirects to `https://pnp.github.io/sp-dev-fx-webparts/?q=hugo`.
+
 The `url` field is intentionally used only as the redirect destination. A prebuild script converts files from `content` into Hugo-safe generated pages so Hugo does not treat `url` as the page permalink.
 
 Every redirect page automatically renders this telemetry image before redirecting:
